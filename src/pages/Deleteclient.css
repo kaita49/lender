@@ -1,0 +1,30 @@
+.delete-line {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 30px;
+    width: 100%;
+    background-color: #b02020;
+    animation: reduceWidth 2s forwards;
+  }
+  
+  
+  
+  @keyframes reduceWidth {
+    from {
+      width: 100%;
+    }
+    to {
+      width: 0;
+    }
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
