@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTable, useGlobalFilter, usePagination } from 'react-table';
+import './Table.css'
 
 const Table = ({ columns, data }) => {
   const [isSearchFocused, setIsSearchFocused] = useState(false);
@@ -39,71 +40,74 @@ const Table = ({ columns, data }) => {
 
   return (
     <div>
-      <div className="mb-4">
+      <div className="mb-4 bg-blue900">
         <input
           type="text"
           value={globalFilter || ''}
           onChange={(e) => setGlobalFilter(e.target.value)}
           placeholder="Search..."
-          className={`w-full p-2 border rounded-md ${
-            isSearchFocused ? 'border-gray-300' : 'border-blue-300'
+          className={`w-full p-2 border text-white  bg-blue900 rounded-md ${
+            isSearchFocused ? 'border-blue900' : 'border-blue500'
           }`}
           onFocus={() => setIsSearchFocused(true)}
           onBlur={() => setIsSearchFocused(false)}
         />
       </div>
-      <table
-        {...getTableProps()}
-        className="min-w-full border border-collapse border-gray-300"
-      >
-        <thead className="bg-gray-100">
-          {headerGroups.map((headerGroup) => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column) => (
-                <th {...column.getHeaderProps()} className="p-2 border-b">
-                  {column.render('Header')}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody {...getTableBodyProps()}>
-          {page.map((row) => {
-            prepareRow(row);
-            return (
-              <tr {...row.getRowProps()} style={{ height: '60px' }} key={row.id}>
-                {row.cells.map((cell) => (
-                  <td {...cell.getCellProps()} className="p-2 border-b align-top">
-                    {cell.render('Cell')}
-                  </td>
+      <div style={{ }}>
+        
+        <table
+          {...getTableProps()}
+          className="min-w-full text-sm table-auto border bg-blue900 text-white border-blue900 overflow-x-auto sm:rounded-lg md:shadow-md "
+        >
+          <thead className="bg-gray-100">
+            {headerGroups.map((headerGroup) => (
+              <tr {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map((column) => (
+                  <th {...column.getHeaderProps()} className="p-2 border-b">
+                    {column.render('Header')}
+                  </th>
                 ))}
               </tr>
-            );
-          })}
-        </tbody>
-      </table>
+            ))}
+          </thead>
+          <tbody {...getTableBodyProps()}>
+            {page.map((row) => {
+              prepareRow(row);
+              return (
+                <tr {...row.getRowProps()} style={{ height: '60px' }} key={row.id}>
+                  {row.cells.map((cell) => (
+                    <td {...cell.getCellProps()} className="p-2 border-b align-top">
+                      {cell.render('Cell')}
+                    </td>
+                  ))}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
       <div className="pagination mt-4">
-        <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+        <button className="text-white" onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
           {'<< First'}
         </button>{' '}
-        <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+        <button className="text-white" onClick={() => previousPage()} disabled={!canPreviousPage}>
           {'< Prev'}
         </button>{' '}
         {pageOptions.map((page, index) => (
-          <button
+          <button 
             key={index}
             onClick={() => gotoPage(index)}
-            className={`mx-2 p-2 border rounded ${
-              pageIndex === index ? 'bg-blue-500 text-white' : ''
+            className={`mx-2 p-2 border rounded text-white ${
+              pageIndex === index ? 'bg-blue900 text-yellow' : ''
             }`}
           >
             {index + 1}
           </button>
         ))}
-        <button onClick={() => nextPage()} disabled={!canNextPage}>
+        <button className="text-white" onClick={() => nextPage()} disabled={!canNextPage}>
           {'Next >'}
         </button>{' '}
-        <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+        <button className="text-white" onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
           {'Last >>'}
         </button>{' '}
       </div>

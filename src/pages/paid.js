@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ref, onValue, set } from 'firebase/database';
-import { db } from './firebaseConfig';
-import { FaBars, FaHome } from 'react-icons/fa';
+import { db } from '../firebaseConfig';
+import { FaBars, FaHome, FaBolt, FaClock, FaCheckCircle } from 'react-icons/fa';
 import Table from './table';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
@@ -36,7 +36,18 @@ const Paid = () => {
     { Header: 'Period', accessor: 'period' },
     { Header: 'Return Amount', accessor: 'returnAmount' },
     { Header: 'Return Date', accessor: 'returnDate' },
-    { Header: 'Status', accessor: 'status' },
+    {
+      Header: 'Status',
+      accessor: 'status',
+      Cell: ({ value }) => (
+        <div className="flex items-center">
+          {value === 'active' && <FaBolt className="mr-2" />}
+          {value === 'Pending' && <FaClock className="mr-2" />}
+          {value === 'Paid' && <FaCheckCircle className="mr-2" />}
+          <span>{value}</span>
+        </div>
+      ),
+    },
     
     {
       Header: 'Modify',
@@ -44,9 +55,9 @@ const Paid = () => {
       Cell: ({ row }) => (
         <button
           onClick={() => handleStatusChange(row.original.id)}
-          className="bg-gray500 text-white px-4 py-2 rounded-md hover:bg-green"
+          className="bg-blue800 flex text-white px-4 py-2 rounded-md hover:bg-blue500"
         >
-          Mark Paid
+        <FaCheckCircle className="mr-2" />  Mark Paid
         </button>
       ),
     },
@@ -93,9 +104,9 @@ const Paid = () => {
   }, []);
 
   return (
-    <div className="h-screen flex flex-col">
+    <div className="h-screen bg-blue900 flex flex-col">
     {/* Navbar */}
-    <nav className="bg-gray800 p-4 flex items-center justify-between">
+    <nav className="bg-blue900 p-4 flex items-center justify-between">
       <div>
         <button
           className="text-white focus:outline-none"
@@ -111,19 +122,19 @@ const Paid = () => {
     <div className="flex flex-1 overflow-x-hidden">
       {/* Sidebar */}
       <aside
-        className={`bg-gray900 p-4 w-64 h-full items-center justify-center transition-transform transform ${
+        className={`bg-blue800 p-4 w-64 h-full items-center justify-center transition-transform transform ${
           isMenuOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         {/* Add your sidebar content here */}
-        <div className="text-white font-serif hover:bg-yellow p-2  flex items-center">
-          <FaHome className='mr-2'/> <Link to="/">Home</Link>
+        <div className="text-white font-serif bg-blue900 justify-center mb-2 hover:bg-blue500 flex items-center rounded-full p-2">
+          <FaHome className='mr-2'/> <Link to="/home">Home</Link>
           </div>
         
       </aside>
 
       {/* Main Content */}
-      <main className={`flex-1 p-4 bg-gray200 transition-margin ${isMenuOpen ? '' : '-ml-64'}`}>
+      <main className={`flex-1 p-4 bg-blue900 transition-margin ${isMenuOpen ? '' : '-ml-64'}`}>
         {/* Add your main content here */}
         <div className="App">
           <h6 className="text-2xl font-italic mb-4">

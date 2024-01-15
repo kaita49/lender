@@ -3,7 +3,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { ref, push, set } from 'firebase/database';
 import { getStorage, ref as storageRef, uploadBytes } from 'firebase/storage';
-import { db } from './firebaseConfig';
+import { db } from '../firebaseConfig';
 import { useNavigate } from 'react-router-dom';
 
 const AddTest = () => {
@@ -113,7 +113,7 @@ const AddTest = () => {
 
       setTimeout(() => {
         setUserAdded(false);
-        navigate('/'); // Use React Router's useNavigate for navigation
+        navigate('/home'); // Use React Router's useNavigate for navigation
       }, 1000); // Adjust the duration as needed (in milliseconds)
 
       e.target.reset();
@@ -246,7 +246,7 @@ const AddTest = () => {
               className="mt-1 p-2 w-full border rounded-md"
               placeholder="Return Date"
               name='returndate'
-              value="2023-12-26"
+              value="2023-12-28"
               readOnly
             />
           </div>

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { FaBars, FaTrash, FaHome } from 'react-icons/fa';
+import { FaBars, FaTrash, FaHome, FaCheckCircle, FaBolt, FaClock} from 'react-icons/fa';
+
 import { ref, onValue, remove } from 'firebase/database';
 import { ref as storageRef, deleteObject } from 'firebase/storage';
-import { db, storage } from './firebaseConfig';
+import { db, storage } from '../firebaseConfig';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import AddClient from './addclient';
 import UpdateClient from './updateclient';
@@ -20,10 +21,21 @@ const Deleteclient = () => {
     { Header: 'Phone No', accessor: 'phone' },
     { Header: 'Amount', accessor: 'amount' },
     { Header: 'Date', accessor: 'date' },
-    { Header: 'Period', accessor: 'period' },
+   
     { Header: 'Return Amount', accessor: 'returnAmount' },
     { Header: 'Return Date', accessor: 'returnDate' },
-    { Header: 'Status', accessor: 'status' },
+    {
+      Header: 'Status',
+      accessor: 'status',
+      Cell: ({ value }) => (
+        <div className="flex items-center">
+          {value === 'active' && <FaBolt className="mr-2" />}
+          {value === 'Pending' && <FaClock className="mr-2" />}
+          {value === 'Paid' && <FaCheckCircle className="mr-2" />}
+          <span>{value}</span>
+        </div>
+      ),
+    },
     {
       Header: 'Image',
       accessor: 'imageUrl',
@@ -55,6 +67,7 @@ const Deleteclient = () => {
       ),
     },
   ];
+  
 
   useEffect(() => {
     const dbRef = ref(db, 'lend');
@@ -95,8 +108,8 @@ const Deleteclient = () => {
   };
 
   return (
-    <div className="h-screen flex flex-col">
-      <nav className="bg-gray800 p-4 flex items-center justify-between">
+    <div className="h-screen bg-blue900 flex flex-col">
+      <nav className="bg-blue900 p-4 flex items-center justify-between">
         <div>
           <button
             className="text-white focus:outline-none"
@@ -110,17 +123,17 @@ const Deleteclient = () => {
 
       <div className="flex flex-1 overflow-x-hidden">
         <aside
-          className={`bg-gray900 p-4 w-64 h-full items-center justify-center transition-transform transform ${
+          className={`bg-blue800 p-4 w-64 h-full items-center justify-center transition-transform transform ${
             isMenuOpen ? 'translate-x-0' : '-translate-x-full'
           }`}
         >
-          <div className="text-white font-serif hover:bg-yellow p-2  flex items-center">
-          <FaHome className='mr-2'/> <Link to="/">Home</Link>
+          <div className="text-white font-serif bg-blue900 justify-center mb-2 hover:bg-blue500 flex items-center rounded-full p-2">
+          <FaHome className='mr-2'/> <Link to="/home">Home</Link>
           </div>
           
         </aside>
 
-        <main className={`flex-1 p-4 bg-gray200 transition-margin ${isMenuOpen ? '' : '-ml-64'}`}>
+        <main className={`flex-1 p-4 bg-blue900 transition-margin ${isMenuOpen ? '' : '-ml-64'}`}>
           <div className="App">
             {deletedClient && (
               <div>

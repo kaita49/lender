@@ -3,7 +3,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { ref, push, set } from 'firebase/database';
 import { getStorage, ref as storageRef, uploadBytes } from 'firebase/storage';
-import { db } from './firebaseConfig';
+import { db } from '../firebaseConfig';
 import { useNavigate } from 'react-router-dom';
 
 const AddClient = () => {
@@ -23,33 +23,36 @@ const AddClient = () => {
     calculateReturn();
   }, [amount, selectedDate, period]);
 
+ 
+
   const calculateReturn = () => {
     if (!amount || !period) {
       setReturnAmount('');
       setReturnDate('');
       return;
     }
-
+  
     const daysDifference = Math.ceil(
       (selectedDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
     );
-
+  
     let returnPercentage = 105;
-
+  
     if (parseInt(period, 10) > 7) {
       const additionalWeeks = Math.ceil((parseInt(period, 10) - 7) / 7);
       returnPercentage += additionalWeeks * 5;
       returnPercentage = Math.min(returnPercentage, 150);
     }
-
+  
     const calculatedReturn = (parseFloat(amount) * returnPercentage) / 100;
     setReturnAmount(calculatedReturn.toFixed(2));
-
+  
     const returnDateObj = new Date(
-      selectedDate.getTime() + parseInt(period, 10) * 24 * 60 * 60 * 1000
-    );
+      selectedDate.getTime() + parseInt(period, 10) * 24 * 60 * 60 * 1000 + 1 * 24 * 60 * 60 * 1000
+    ); // Adding one day to the return date
     setReturnDate(returnDateObj.toISOString().split('T')[0]);
   };
+  
 
   const handleClearReturn = () => {
     setReturnAmount('');
@@ -113,7 +116,7 @@ const AddClient = () => {
 
       setTimeout(() => {
         setUserAdded(false);
-        navigate('/'); // Use React Router's useNavigate for navigation
+        navigate('/home'); // Use React Router's useNavigate for navigation
       }, 1000); // Adjust the duration as needed (in milliseconds)
 
       e.target.reset();
@@ -129,9 +132,11 @@ const AddClient = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen mt-28">
-      <div className="bg-white p-8 rounded shadow-md mt-11 w-96">
-        <h2 className="text-2xl mb-4 flex items-center justify-center font-serif">Add Client:</h2>
+    <div className="flex justify-center  items-center h-screen mt-28">
+     
+      <div className=" p-8 rounded shadow-md mt-11 w-96">
+      <form className="mt-36" onSubmit={handleSubmit}>
+        <h2 className="text-2xl mt-12 mb-25 flex items-center justify-center font-serif">Add Client:</h2>
 
         {error && <div className="text-red-500 mb-4">{error}</div>}
 
@@ -141,8 +146,8 @@ const AddClient = () => {
           </div>
         )}
 
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
+
+          <div className="mb-4 -mt-15">
             <label className="block text-sm font-medium text-gray600">Name:</label>
             <input
               type="text"
@@ -250,8 +255,8 @@ const AddClient = () => {
             />
           </div>
 
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray600">Status:</label>
+          <div className="mb-4 ">
+            <label className="block text-sm  font-medium text-gray600">Status:</label>
             <input
               type="text"
               className="mt-1 p-2 w-full border rounded-md"
@@ -259,13 +264,14 @@ const AddClient = () => {
               readOnly
             />
           </div>
-
+<div className="justify-center flex">
           <button
             type="submit"
-            className="bg-gray500 text-white px-4 py-2 rounded-md hover:bg-gray600"
+            className="bg-blue900 text-white px-4 py-2 rounded-md hover:bg-blue500"
           >
             Submit
           </button>
+          </div>
         </form>
       </div>
     </div>

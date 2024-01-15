@@ -1,0 +1,29 @@
+/* TableComponent.css */
+.table-container {
+  overflow-x: auto;
+}
+
+.responsive-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+}
+
+.responsive-table th,
+.responsive-table td {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+}
+
+@media (max-width: 768px) {
+  .responsive-table th,
+  .responsive-table td {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .responsive-table th {
+    text-align: left;
+  }
+}

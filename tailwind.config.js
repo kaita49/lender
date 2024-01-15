@@ -5,9 +5,16 @@ module.exports = {
   ],
   theme: {
     colors: {
+      green200:'#bbf7d0',
+      yellow200:'#fef08a',
+      blue200:'#bfdbfe',
+      blue500:'#3b82f6',
       blue200:'#90CAF9',
-      blue600:'#2196F3',
-      blue800:'#1565C0',
+      blue600:'#0284c7',
+      blue800:'#0c4a6e',
+      blue900:'#082f49',
+     
+      
       red500:'#EF4444',
       gray800:'#32363a',
       gray600:'#4f555d',
